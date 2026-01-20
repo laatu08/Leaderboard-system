@@ -4,10 +4,14 @@ import (
 	"fmt"
 	"leaderboard/store"
 	"net/http"
+	"leaderboard/handlers"
 )
 
 func main() {
 	store.InitUsers(10000)
+	// store.ShowUsers()
+
+	http.HandleFunc("/leaderboard", handlers.LeaderboardHandler)
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)

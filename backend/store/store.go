@@ -33,6 +33,20 @@ func InitUsers(count int) {
 	fmt.Println("Seeding of",count,"user done")
 }
 
+func ShowUsers() {
+	mu.RLock()
+	defer mu.RUnlock()
+
+	for _, user := range users {
+		fmt.Printf(
+			"ID: %d | Username: %s | Rating: %d\n",
+			user.ID,
+			user.Username,
+			user.Rating,
+		)
+	}
+}
+
 func GetUser(id int) *models.User {
 	mu.RLock()
 	defer mu.RUnlock()
@@ -45,14 +59,41 @@ func GetAllUsers() map[int]*models.User {
 	return users
 }
 
+// func GetRank(rating int) int {
+// 	mu.RLock()
+// 	defer mu.RUnlock()
+
+// 	rank := 1
+// 	for r := rating + 1; r <= 5000; r++ {
+// 		rank += ratingBuckets[r]
+// 	}
+// 	return rank
+// }
+
 func GetRank(rating int) int {
 	mu.RLock()
 	defer mu.RUnlock()
 
 	rank := 1
 	for r := rating + 1; r <= 5000; r++ {
-		rank += ratingBuckets[r]
+		if ratingBuckets[r] > 0 {
+			rank++
+		}
 	}
 	return rank
 }
 
+
+
+func GetUsersByRating(rating int) []*models.User {
+	mu.RLock()
+	defer mu.RUnlock()
+
+	var result []*models.User
+	for _, user := range users {
+		if user.Rating == rating {
+			result = append(result, user)
+		}
+	}
+	return result
+}
