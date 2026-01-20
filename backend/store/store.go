@@ -113,3 +113,25 @@ func SearchUsers(query string) []*models.User {
 	}
 	return result
 }
+
+func UpdateRandomUsers(count int) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	for i := 0; i < count; i++ {
+		userID := rand.Intn(len(users)) + 1
+		user := users[userID]
+
+		oldRating := user.Rating
+		newRating := rand.Intn(4901) + 100 // 100–5000
+
+		if oldRating == newRating {
+			continue
+		}
+
+		ratingBuckets[oldRating]--
+		ratingBuckets[newRating]++
+
+		user.Rating = newRating
+	}
+}

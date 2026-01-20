@@ -28,7 +28,6 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	sort.Slice(response, func(i, j int) bool {
 		if response[i].Rank == response[j].Rank {
-			// same rank → higher rating first (optional but nice)
 			return response[i].Rating > response[j].Rating
 		}
 		return response[i].Rank < response[j].Rank
