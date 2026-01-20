@@ -5,6 +5,7 @@ import (
 	"leaderboard/models"
 	"math/rand"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -92,6 +93,21 @@ func GetUsersByRating(rating int) []*models.User {
 	var result []*models.User
 	for _, user := range users {
 		if user.Rating == rating {
+			result = append(result, user)
+		}
+	}
+	return result
+}
+
+func SearchUsers(query string) []*models.User {
+	mu.RLock()
+	defer mu.RUnlock()
+
+	query = strings.ToLower(query)
+	var result []*models.User
+
+	for _, user := range users {
+		if strings.Contains(strings.ToLower(user.Username), query) {
 			result = append(result, user)
 		}
 	}

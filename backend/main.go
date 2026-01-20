@@ -12,6 +12,7 @@ func main() {
 	// store.ShowUsers()
 
 	http.HandleFunc("/leaderboard", handlers.LeaderboardHandler)
+	http.HandleFunc("/search", handlers.SearchHandler)
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
