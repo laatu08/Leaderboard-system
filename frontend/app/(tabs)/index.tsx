@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, Text, View, StyleSheet, RefreshControl } from "react-native";
 import { theme } from "../../constants/theme";
+import { API_BASE_URL } from "@/constants/config";
 
 type Entry = {
   rank: number;
@@ -18,7 +19,7 @@ export default function Leaderboard() {
 
   const fetchData = async () => {
     const res = await fetch(
-      `http://localhost:8080/leaderboard?rank=${rankLimit}`
+      `${API_BASE_URL}/leaderboard?rank=${rankLimit}`
     );
     const json = await res.json();
     setData(json);

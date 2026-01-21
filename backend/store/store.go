@@ -135,3 +135,9 @@ func UpdateRandomUsers(count int) {
 		user.Rating = newRating
 	}
 }
+
+func IsBucketEmpty(rating int) bool {
+	mu.RLock()
+	defer mu.RUnlock()
+	return ratingBuckets[rating] == 0
+}

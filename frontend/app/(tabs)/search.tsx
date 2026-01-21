@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FlatList, Text, TextInput, View, StyleSheet } from "react-native";
 import { theme } from "../../constants/theme";
 import { useRef } from "react";
+import { API_BASE_URL } from "@/constants/config";
 
 type Result = {
   rank: number;
@@ -28,7 +29,7 @@ export default function Search() {
         return;
       }
 
-      const res = await fetch(`http://localhost:8080/search?query=${text}`);
+      const res = await fetch(`${API_BASE_URL}/search?query=${text}`);
       const json = await res.json();
       setResults(json);
     }, 300);

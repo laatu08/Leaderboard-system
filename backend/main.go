@@ -5,6 +5,7 @@ import (
 	"leaderboard/handlers"
 	"leaderboard/store"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -44,7 +45,13 @@ func main() {
 		w.Write([]byte("Server is running okay"))
 	})
 
-	fmt.Println("Server running on :8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	fmt.Println("Server running on port:", port)
+
 	handler := enableCORS(http.DefaultServeMux)
-	http.ListenAndServe(":8080", handler)
+	http.ListenAndServe("0.0.0.0:"+port, handler)
 }
